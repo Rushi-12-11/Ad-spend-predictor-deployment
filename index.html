@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ad Spend Predictor</title>
+</head>
+<body>
+  <h2>Ad Spend Predictor</h2>
+  <form id="predict-form">
+    <label for="tv">TV Spend:</label>
+    <input type="number" step="any" id="tv" name="tv" required><br><br>
+
+    <label for="radio">Radio Spend:</label>
+    <input type="number" step="any" id="radio" name="radio" required><br><br>
+
+    <label for="newspaper">Newspaper Spend:</label>
+    <input type="number" step="any" id="newspaper" name="newspaper" required><br><br>
+
+    <button type="submit">Predict</button>
+  </form>
+
+  <h3 id="result"></h3>
+
+  <script>
+    document.getElementById('predict-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const tv = parseFloat(document.getElementById('tv').value);
+      const radio = parseFloat(document.getElementById('radio').value);
+      const newspaper = parseFloat(document.getElementById('newspaper').value);
+
+      const response = await fetch('http://localhost:8000/prediction/advertising', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ TV: tv, Radio: radio, Newspaper: newspaper })
+      });
+
+      const data = await response.json();
+      document.getElementById('result').innerText = 'Predicted Sales: ' + data.prediction.toFixed(2);
+    });
+  </script>
+</body>
+</html>
