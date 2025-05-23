@@ -21,23 +21,24 @@
   <h3 id="result"></h3>
 
   <script>
-    document.getElementById('predict-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const tv = parseFloat(document.getElementById('tv').value);
-      const radio = parseFloat(document.getElementById('radio').value);
-      const newspaper = parseFloat(document.getElementById('newspaper').value);
+  document.getElementById('predict-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const tv = parseFloat(document.getElementById('tv').value);
+    const radio = parseFloat(document.getElementById('radio').value);
+    const newspaper = parseFloat(document.getElementById('newspaper').value);
 
-      const response = await fetch('http://localhost:8000/prediction/advertising', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ TV: tv, Radio: radio, Newspaper: newspaper })
-      });
-
-      const data = await response.json();
-      document.getElementById('result').innerText = 'Predicted Sales: ' + data.prediction.toFixed(2);
+    const response = await fetch('/prediction/advertising', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ TV: tv, Radio: radio, Newspaper: newspaper })
     });
+
+    const data = await response.json();
+    document.getElementById('result').innerText = 'Predicted Sales: ' + data.prediction.toFixed(2);
+  });
   </script>
+
 </body>
 </html>
